@@ -15,4 +15,22 @@ components:
   properties: {}
   name: navbar_links
   layout_properties: {slot: nav-right}
+  components:
+  - type: Button
+    properties: {text: button_2}
+    name: button_2
+    layout_properties: {slot: default}
+    event_bindings: {click: button_2_click}
+- type: Button
+  properties: {text: button_3}
+  name: button_3
+  layout_properties: {slot: default}
+  event_bindings: {click: button_3_click}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: hey buddy, font_size: null,
+    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_box_1
+  layout_properties: {slot: default}
 is_package: true
