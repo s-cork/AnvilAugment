@@ -1,6 +1,0 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: "<center style=\"font-style:italic; color:#888; margin: 3em;\"\
-      >\n  (This is a Dependency)\n</center>"}
-components: []
