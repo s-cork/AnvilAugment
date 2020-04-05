@@ -1,11 +1,17 @@
 from anvil import js as _js
 
 def augment(component, event):
-  if isiterable
+  if isiterable(component):
+    
   _js.call_js('augment', component, event)
   
   
-
+def isiterable(foo):
+  try:
+    iter(foo)
+    return True
+  except:
+    return False
 
 
 
