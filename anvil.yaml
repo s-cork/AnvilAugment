@@ -1,0 +1,26 @@
+dependencies: []
+services: []
+package_name: anvil_augment
+allow_embedding: false
+name: Clone of anvil_augment
+runtime_options: {version: 1, server_version: python2-sandbox, client_version: '2'}
+metadata: {}
+startup_form: Form1
+native_deps: {head_html: "<script>\n\n  function get_jQuery_obj(component) {\n   \
+    \ // deal with buttons being the surrounding div rather than the button element\n\
+    \    if (component.v._anvil.element[0].classList.contains(\"anvil-button\")) {\n\
+    \        return $(component.v._anvil.element[0].firstElementChild)\n       //\
+    \ jQuery object\n    }\n    else { return component.v._anvil.element}; //jQuery\
+    \ object\n  };\n  \n  function augment_hover(component, func_in, func_out) {\n\
+    \    let sender = component.v\n    let html_element = get_jQuery_obj(component)\n\
+    \    \n    html_element.on('mouseenter', function () {\n        let event_args\
+    \ = { 'event_name': 'hover_in', 'sender': sender }\n        anvil.call(html_element,\
+    \ func_in, event_args)\n\n    }).on('mouseleave', function () {\n        let event_args\
+    \ = { 'event_name': 'hover_out', 'sender': sender }\n        anvil.call(html_element,\
+    \ func_out, event_args)\n    })\n\n};\n\nfunction augment(component, event, func)\
+    \ {\n    let sender = component.v\n    let html_element = get_jQuery_obj(component)\n\
+    \    let event_args = { 'event_name': event, 'sender': sender }\n    html_element.on(event,\
+    \ function () {\n        anvil.call(html_element, func, event_args)\n    });\n\
+    };\n\nfunction augment_trigger(component, event) {\n    let html_element = get_jQuery_obj(component)\n\
+    \    html_element.trigger(event)\n\n};\n  \n</script>"}
+renamed: true
