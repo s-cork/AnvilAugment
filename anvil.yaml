@@ -14,9 +14,9 @@ native_deps: {head_html: "<script>\n  function get_jQuery_obj(component) {\n    
     \ jQuery object\n    }\n    else { return component.v._anvil.element}; //jQuery\
     \ object\n  };\n  \n  function augment(component, event) {\n    const element\
     \ = get_jQuery_obj(component);\n    component = component.v;\n   \tcomponent._anvil.eventTypes[event]\
-    \ = {'name':event};\n    element.on(event, function() {\n      Sk.abstr.gattr(component,\
-    \ Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)]);\n    });\n\
-    \    \n    component.constructor.trigger = new Sk.builtin.func(function(self,\
+    \ = {'name':event};\n    element.on(event, function(e) {\n      console.log(e);\n\
+    \      Sk.abstr.gattr(component, Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)]);\n\
+    \    });\n    \n    component.constructor.trigger = new Sk.builtin.func(function(self,\
     \ event){\n      event = event.$jsstr();\n      element.trigger(event);\n    });\n\
     \  }\n  \n</script>"}
 dependency_order: []

@@ -33,4 +33,11 @@ components:
     background: '', bold: false, underline: false}
   name: text_box_1
   layout_properties: {slot: default}
+- type: TextArea
+  properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: keydown, font_size: null,
+    auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: text_area_1
+  layout_properties: {slot: default}
 is_package: true

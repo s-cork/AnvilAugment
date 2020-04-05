@@ -7,10 +7,12 @@ class Form1(Form1Template):
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
-    from ..Augment import augment
-    augment(self.button_1, 'mouseenter')
-    augment(self.button_1, 'focus')
-    augment(self.text_box_1, 'select')
+    from .. import augment
+    augment.add_event(self.button_1, 'mouseenter')
+    augment.add_event(self.button_1, 'focus')
+    augment.add_event(self.text_box_1, 'select')
+    
+    augment.set_event_handler(self.text_area_1, 'keydown', self.text_area_1_keydown)
     
     self.button_1.set_event_handler('mouseenter', self.button_1_focus)
     self.button_1.set_event_handler('focus', self.button_1_focus)
@@ -27,3 +29,5 @@ class Form1(Form1Template):
     self.text_box_1.trigger('select')
 
 
+  def text_area_1_keydown(self, **event_args):
+    print(event_args)
