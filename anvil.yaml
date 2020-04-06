@@ -1,9 +1,9 @@
 dependencies: []
 services: []
 startup: {type: form, module: Form1}
-package_name: anvil_augment
+package_name: AnvilAugment
 allow_embedding: false
-name: anvil_augment
+name: AnvilAugment
 runtime_options: {version: 2, server_version: python2-sandbox, client_version: '3'}
 metadata: {}
 startup_form: Form1
