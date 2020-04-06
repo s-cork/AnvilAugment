@@ -12,4 +12,4 @@ def set_event_handler(component, event, func):
   
 
 if __name__ == '__main__':
-  print('augment is a a dependency')
+  print('augment is a dependency')
