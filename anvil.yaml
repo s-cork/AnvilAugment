@@ -12,13 +12,26 @@ native_deps: {head_html: "<script>\n  function get_jQuery_obj(component) {\n    
     \    if (component.v._anvil.element[0].classList.contains(\"anvil-button\")) {\n\
     \        return $(component.v._anvil.element[0].firstElementChild)\n       //\
     \ jQuery object\n    }\n    else { return component.v._anvil.element}; //jQuery\
-    \ object\n  };\n  \n  function augment(component, event) {\n    const element\
+    \ object\n  };\n  \n  function augment(component, event) {    \n    const element\
     \ = get_jQuery_obj(component);\n    component = component.v;\n   \tcomponent._anvil.eventTypes[event]\
-    \ = {'name':event};\n    element.on(event, function(e) {\n      console.log(e);\n\
-    \      Sk.abstr.gattr(component, Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)]);\n\
-    \    });\n    \n    component.constructor.trigger = new Sk.builtin.func(function(self,\
-    \ event){\n      event = event.$jsstr();\n      element.trigger(event);\n    });\n\
-    \  }\n  \n</script>"}
+    \ = {'name':event};\n    element.on(event, function(e) {\n      const kwargs =\
+    \ [];\n      \n      if (event.includes('key')) {\n        const e_args = {key:\
+    \       e.key,       key_code: e.key_code,\n                        shift_key:\
+    \ e.shiftKey,  alt_key:  e.altKey, \n                        meta_key:  e.metaKey,\
+    \   ctrl_key: e.ctrlKey,\n                       }\n        Sk.abstr.mappingUnpackIntoKeywordArray(kwargs,\
+    \ Sk.ffi.remapToPy(e_args))\n      }\n      preventDefault = Sk.abstr.gattr(component,\
+    \ Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)],kwargs);\n\t\
+    \  if (preventDefault.v) {\n        // just incase you want to prevent default\
+    \ behaviour return a value from your event handler function\n        e.preventDefault();\n\
+    \      }\n    });\n    \n    _trigger = function($kwa, self, event){\n      event\
+    \ = event.$jsstr();\n\t  if ($kwa.length) {\n        $kwa = new Sk.builtin.dict($kwa);\n\
+    \        $kwa = Sk.ffi.remapToJs($kwa);\n      \telement.trigger(event, $kwa);\n\
+    \      } else {\n        element.trigger(event);\n      }\n      \n    }\n   \
+    \ _trigger.co_name = new Sk.builtin.str('_trigger');\n\t_trigger.co_varnames =\
+    \ ['self', 'event'];\n\t_trigger.co_kwargs = 1;\n    \n    component.constructor.trigger\
+    \ = new Sk.builtin.func(_trigger);\n  }\n  \n  \n  const toCamel = (s) => {\n\
+    \  return s.replace(/([-_][a-z])/ig, ($1) => {\n    return $1.toUpperCase()\n\
+    \      .replace('-', '')\n      .replace('_', '');\n  });\n  };\n</script>"}
 dependency_order: []
 dependency_code: {}
 renamed: true

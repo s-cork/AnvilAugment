@@ -27,7 +27,11 @@ class Form1(Form1Template):
   def button_3_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.text_box_1.trigger('select')
+    self.text_area_1.trigger('keydown', keyCode=13)
 
 
   def text_area_1_keydown(self, **event_args):
     print(event_args)
+    if event_args['key_code'] == 13:
+      print(event_args['key_code'])
+      return True
