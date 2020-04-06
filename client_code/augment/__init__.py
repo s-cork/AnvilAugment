@@ -1,7 +1,7 @@
 from anvil import js as _js
 
 def add_event(component, event):
-  """component: (instantiated) anvil compoent
+  """component: (instantiated) anvil component
   event: str - any jquery event string
   """
   if not isinstance(event, str):
@@ -19,4 +19,4 @@ def set_event_handler(component, event, func):
   
 
 if __name__ == '__main__':
-  print('augment is a dependency')
+  print('AnvilAugment is a dependency')
