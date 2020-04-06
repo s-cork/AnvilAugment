@@ -7,30 +7,29 @@ name: AnvilAugment
 runtime_options: {version: 2, server_version: python2-sandbox, client_version: '3'}
 metadata: {}
 startup_form: null
-native_deps: {head_html: "<script>\n  function get_jQuery_obj(component) {\n     \
-    \ // deal with buttons being the surrounding div rather than the button element\n\
-    \      if (component.v._anvil.element[0].classList.contains(\"anvil-button\"))\
-    \ {\n          return $(component.v._anvil.element[0].firstElementChild)\n   \
-    \       // jQuery object\n      } else {\n          return component.v._anvil.element\n\
-    \      }; //jQuery object\n  };\n\n  function augment(component, event) {\n  \
-    \    const element = get_jQuery_obj(component);\n      component = component.v;\n\
-    \      component._anvil.eventTypes[event] = {\n          'name': event\n     \
-    \ };\n      const event_type = event == 'hover' ? 'mouseenter mouseleave' : event;\n\
-    \    \n      element.on(event_type, function (e) {\n          const kwargs = [];\n\
-    \          let e_args = {};\n          if (event_type.includes('key')) {\n   \
-    \           e_args = {\n                  key: e.key,\n                  key_code:\
-    \ e.keyCode,\n                  shift_key: e.shiftKey,\n                  alt_key:\
-    \ e.altKey,\n                  meta_key: e.metaKey,\n                  ctrl_key:\
-    \ e.ctrlKey,\n              };\n          }\n        \te_args.event_type = e.type;\n\
-    \        \tSk.abstr.mappingUnpackIntoKeywordArray(kwargs, Sk.ffi.remapToPy(e_args));\n\
-    \          preventDefault = Sk.abstr.gattr(component, Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)],\
-    \ kwargs);\n          if (preventDefault !== undefined && preventDefault.v) {\n\
-    \              // just incase you want to prevent default behaviour return a value\
-    \ from your event handler function\n              e.preventDefault();\n      \
-    \    }\n      });\n\n      component.constructor.trigger = new Sk.builtin.func(function\
-    \ (self, event) {\n          event = event.$jsstr();\n      \t  event = event\
-    \ == 'hover' ? 'mouseenter mouseleave' : event; // would probably never do this!\n\
-    \          element.trigger(event);\n      });\n  }\n  \n</script>"}
+native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    // deal\
+    \ with buttons being the surrounding div rather than the button element\n    if\
+    \ (component.v._anvil.element[0].classList.contains(\"anvil-button\")) {\n   \
+    \     return $(component.v._anvil.element[0].firstElementChild)\n        // jQuery\
+    \ object\n    } else {\n        return component.v._anvil.element\n    }; //jQuery\
+    \ object\n};\n\nfunction augment(component, event) {\n    const element = get_jQuery_obj(component);\n\
+    \    component = component.v;\n    component._anvil.eventTypes[event] = {\n  \
+    \      'name': event\n    };\n    // hover is different\n    const event_type\
+    \ = event == 'hover' ? 'mouseenter mouseleave' : event;\n\n    element.on(event_type,\
+    \ function (e) {\n        const kwargs = [];\n        let e_args = {};\n     \
+    \   if (event_type.includes('key')) {\n            e_args = {\n              \
+    \  key: e.key,\n                key_code: e.keyCode,\n                shift_key:\
+    \ e.shiftKey,\n                alt_key: e.altKey,\n                meta_key: e.metaKey,\n\
+    \                ctrl_key: e.ctrlKey,\n            };\n        }\n        e_args.event_type\
+    \ = e.type;\n        Sk.abstr.mappingUnpackIntoKeywordArray(kwargs, Sk.ffi.remapToPy(e_args));\n\
+    \        const preventDefault = Sk.abstr.gattr(component, Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)],\
+    \ kwargs);\n        if (preventDefault !== undefined && preventDefault.v) {\n\
+    \            // just incase you want to prevent default behaviour return a value\
+    \ from your event handler function\n            e.preventDefault();\n        }\n\
+    \    });\n\n    component.constructor.trigger = new Sk.builtin.func(function (self,\
+    \ event) {\n        event = event.$jsstr();\n        event = event == 'hover'\
+    \ ? 'mouseenter mouseleave' : event; // would probably never do this!\n      \
+    \  element.trigger(event);\n    });\n}\n</script>"}
 dependency_order: []
 dependency_code: {}
 renamed: true
