@@ -21,16 +21,13 @@ native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    //
     \ = {key:       e.key,       key_code: e.keyCode,\n                      shift_key:\
     \ e.shiftKey,  alt_key:  e.altKey,\n                      meta_key:  e.metaKey,\
     \   ctrl_key: e.ctrlKey,\n            };\n        }\n        e_args.event_type\
-    \ = e.type;\n      \t// turn e_args into skulpt kwarg array\n        const kwargs\
-    \ = [];\n        Sk.abstr.mappingUnpackIntoKeywordArray(kwargs, Sk.ffi.remapToPy(e_args));\n\
-    \      \t// call raise_event on the component\n        const preventDefault =\
-    \ Sk.abstr.gattr(component, Sk.builtin.str('raise_event')).tp$call([Sk.builtin.str(event)],\
-    \ kwargs);\n      \t// preventDefault if event_handler returned a value\n    \
-    \    if (preventDefault !== undefined && preventDefault.v) {\n            e.preventDefault();\n\
-    \        }\n    });\n\t\n  \t// add trigger method to component\n    component.constructor.trigger\
+    \ = e.type;\n\n      \t// call raise_event on the component\n        let handled\
+    \ = PyDefUtils.raiseEventOrSuspend(e_args, component, event);\n\n      \tif (handled.$isSuspension)\
+    \ {\n          PyDefUtils.asyncToPromise(function() { return handled; });\n  \
+    \      } else if (handled !== undefined && handled.v) {\n          e.preventDefault;\n\
+    \        }\n\n    });\n\t\n  \t// add trigger method to component\n    component.constructor.trigger\
     \ = new Sk.builtin.func(function (self, event) {\n        event = event.$jsstr();\n\
     \        event = event == 'hover' ? 'mouseenter mouseleave' : event; // would\
     \ probably never do this!\n        element.trigger(event);\n    });\n}\n</script>"}
-dependency_order: []
-dependency_code: {}
+db_schema: []
 renamed: true
