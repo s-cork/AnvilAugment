@@ -2,7 +2,7 @@
 
 A dependency for adding custom jQuery events to any anvil component
 
-https://anvil.works/build#clone:36T6RN2OO6KLBGV7=4LZ35S57ODPL7ORIUJ2AH6KY|223FMU5UYH5T2XSA=UYJICI36SETZB4DPFRHCKMVA
+[<img src="https://anvil.works/img/forum/copy-app.png" height='40px'>](https://anvil.works/build#clone:36T6RN2OO6KLBGV7=4LZ35S57ODPL7ORIUJ2AH6KY|223FMU5UYH5T2XSA=UYJICI36SETZB4DPFRHCKMVA)
 
 
 ### Examples:
