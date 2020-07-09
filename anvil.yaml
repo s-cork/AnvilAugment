@@ -34,9 +34,11 @@ native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    //
     \ promise\n            PyDefUtils.asyncToPromise(function() { return handled;\
     \ });\n          } else if (handled.v) {\n            // check if there was a\
     \ value returned\n            e.preventDefault();\n          }\n        }\n\n\
-    \    });\n\t\n  \t// add trigger method to component\n    component.constructor.trigger\
+    \    });\n\t\n  \t// add trigger method to component\n    component.constructor.prototype.trigger\
     \ = new Sk.builtin.func(function (self, event) {\n        event = event.$jsstr();\n\
     \        event = event == 'hover' ? 'mouseenter mouseleave' : event; // would\
-    \ probably never do this!\n        element.trigger(event);\n    });\n}\n</script>"}
+    \ probably never do this!\n      \tconst component = self\n      \tcomponent.v\
+    \ = self\n      \tconst element = get_jQuery_obj(component);\n        element.trigger(event);\n\
+    \    });\n}\n</script>"}
 db_schema: []
 renamed: true
