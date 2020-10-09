@@ -19,10 +19,13 @@ native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    //
     \ component.v.constructor});\n}\n\nfunction augment_init(component) {\n    component\
     \ = component.v;\n    if (!component.prototype.hasOwnProperty(\"trigger\")) {\n\
     \          component.prototype.trigger = new Sk.builtin.func(function (self, event)\
-    \ {\n              event = event.$jsstr();\n              event = event == 'hover'\
-    \ ? 'mouseenter mouseleave' : event; // would probably never do this!\n      \
-    \        const component = {v: self}\n              const element = get_jQuery_obj(component);\n\
-    \              element.trigger(event);\n        });    \n    }\n}\n  \n  \nfunction\
+    \ {\n              event = Sk.ffi.remapToJs(event);\n              if (typeof\
+    \ event === \"object\") {\n                const event_name = event.event\n  \
+    \              delete event.event\n                event = $.Event(event_name,\
+    \ event);\n              }\n              event = event == 'hover' ? 'mouseenter\
+    \ mouseleave' : event; // would probably never do this!\n              const component\
+    \ = {v: self}\n              const element = get_jQuery_obj(component);\n    \
+    \          element.trigger(event);\n        });    \n    }\n}\n  \n  \nfunction\
     \ add_event(component, event) {\n    const element = get_jQuery_obj(component);\n\
     \    component = component.v;\n  \n  \tcomponent._anvil.eventTypes[event] = {\n\
     \        'name': event,\n    };\n    // hover is different\n    const event_type\
