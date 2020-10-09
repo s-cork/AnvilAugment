@@ -14,10 +14,19 @@ native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    //
     \        // jQuery object\n    } else if (classlist.contains(\"file-loader\"))\
     \ {\n        return component.v._anvil.element.find('form');\n    } else {\n \
     \       return component.v._anvil.element\n    };  // jQuery object\n};\n\nfunction\
-    \ augment(component, event) {\n    const element = get_jQuery_obj(component);\n\
-    \    component = component.v;\n\tcomponent._anvil.eventTypes[event] = {\n    \
-    \    'name': event,\n    };\n    // hover is different\n    const event_type =\
-    \ event == 'hover' ? 'mouseenter mouseleave' : event;\n\t\n  \t// set the event\
+    \ augment(component, event) {\n    if (event) {\n      add_event(component, event)\n\
+    \    }\n\n  \t// add trigger method to component types prototype\n    augment_init({v:\
+    \ component.v.constructor});\n}\n\nfunction augment_init(component) {\n    component\
+    \ = component.v;\n    if (!component.prototype.hasOwnProperty(\"trigger\")) {\n\
+    \          component.prototype.trigger = new Sk.builtin.func(function (self, event)\
+    \ {\n              event = event.$jsstr();\n              event = event == 'hover'\
+    \ ? 'mouseenter mouseleave' : event; // would probably never do this!\n      \
+    \        const component = {v: self}\n              const element = get_jQuery_obj(component);\n\
+    \              element.trigger(event);\n        });    \n    }\n}\n  \n  \nfunction\
+    \ add_event(component, event) {\n    const element = get_jQuery_obj(component);\n\
+    \    component = component.v;\n  \n  \tcomponent._anvil.eventTypes[event] = {\n\
+    \        'name': event,\n    };\n    // hover is different\n    const event_type\
+    \ = event == 'hover' ? 'mouseenter mouseleave' : event;\n\t\n  \t// set the event\
     \ for the jquery element\n    element.on(event_type, function (e) {\n        let\
     \ e_args = {};\n        if (event_type.includes('key')) {\n            e_args\
     \ = {key:       e.key,       key_code: e.keyCode,\n                      shift_key:\
@@ -36,11 +45,6 @@ native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    //
     \ promise\n            PyDefUtils.asyncToPromise(function() { return handled;\
     \ });\n          } else if (handled.v) {\n            // check if there was a\
     \ value returned\n            e.preventDefault();\n          }\n        }\n\n\
-    \    });\n\t\n  \t// add trigger method to component\n    component.constructor.prototype.trigger\
-    \ = new Sk.builtin.func(function (self, event) {\n        event = event.$jsstr();\n\
-    \        event = event == 'hover' ? 'mouseenter mouseleave' : event; // would\
-    \ probably never do this!\n      \tconst component = self\n      \tcomponent.v\
-    \ = self\n      \tconst element = get_jQuery_obj(component);\n        element.trigger(event);\n\
     \    });\n}\n</script>"}
 db_schema: []
 renamed: true

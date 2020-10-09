@@ -11,7 +11,7 @@
     Source code published at https://github.com/s-cork/AnvilAugment
 """
 
-from anvil import js as _js
+from anvil import js as _js, Component as _Component
 
 def add_event(component, event):
   """component: (instantiated) anvil component
@@ -29,7 +29,15 @@ def set_event_handler(component, event, func):
   """
   add_event(component, event)
   component.set_event_handler(event, func)
-  
+
+def init(component):
+  if isinstance(component, _Component):
+    component = type(component)
+  if issubclass(component, _Component):
+    pass
+  else:
+    raise TypeError("must be an instance or subclass of component")
+  _js.call_js('augment_init', component)
 
 if __name__ == '__main__':
   print('AnvilAugment is a dependency')
