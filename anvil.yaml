@@ -25,23 +25,22 @@ native_deps: {head_html: "<script>\nfunction get_jQuery_obj(component) {\n    //
     \ event);\n              }\n              event = event == 'hover' ? 'mouseenter\
     \ mouseleave' : event; // would probably never do this!\n              const component\
     \ = {v: self}\n              const element = get_jQuery_obj(component);\n    \
-    \          element.trigger(event);\n        });    \n    }\n}\n  \n  \nfunction\
-    \ add_event(component, event) {\n    const element = get_jQuery_obj(component);\n\
-    \    component = component.v;\n  \n  \tcomponent._anvil.eventTypes[event] = {\n\
-    \        'name': event,\n    };\n    // hover is different\n    const event_type\
-    \ = event == 'hover' ? 'mouseenter mouseleave' : event;\n\t\n  \t// set the event\
-    \ for the jquery element\n    element.on(event_type, function (e) {\n        let\
-    \ e_args = {};\n        if (event_type.includes('key')) {\n            e_args\
-    \ = {key:       e.key,       key_code: e.keyCode,\n                      shift_key:\
-    \ e.shiftKey,  alt_key:  e.altKey,\n                      meta_key:  e.metaKey,\
-    \   ctrl_key: e.ctrlKey,\n            };\n        }\n        e_args.event_type\
-    \ = e.type;\n      \n        // create event_params for PyDefUtils to handle.\n\
-    \      \tconst event_params = {}\n      \tfor (i in e_args) {\n          event_params[i]\
-    \ = {};\n          event_params[i].name = i;\n          event_params[i].pyVal\
-    \ = false;\n        }\n      \t\n        // update the event to include paramaters.\n\
-    \     \tcomponent._anvil.eventTypes[event] = {\n          'name': event,\n   \
-    \       'parameters': event_params\n        };\n\n      \t// call raise_event\
-    \ on the component\n        let handled = PyDefUtils.raiseEventOrSuspend(e_args,\
+    \          element.trigger(event);\n        });\n    }\n}\n  \n  \nfunction add_event(component,\
+    \ event) {\n    const element = get_jQuery_obj(component);\n    component = component.v;\n\
+    \  \n  \tcomponent._anvil.eventTypes[event] = {\n        'name': event,\n    };\n\
+    \    // hover is different\n    const event_type = event == 'hover' ? 'mouseenter\
+    \ mouseleave' : event;\n\t\n  \t// set the event for the jquery element\n    element.on(event_type,\
+    \ function (e) {\n        let e_args = {};\n        if (event_type.includes('key'))\
+    \ {\n            e_args = {key:       e.key,       key_code: e.keyCode,\n    \
+    \                  shift_key: e.shiftKey,  alt_key:  e.altKey,\n             \
+    \         meta_key:  e.metaKey,   ctrl_key: e.ctrlKey,\n            };\n     \
+    \   }\n        e_args.event_type = e.type;\n      \n        // create event_params\
+    \ for PyDefUtils to handle.\n      \tconst event_params = {}\n      \tfor (i in\
+    \ e_args) {\n          event_params[i] = {};\n          event_params[i].name =\
+    \ i;\n          event_params[i].pyVal = false;\n        }\n      \t\n        //\
+    \ update the event to include paramaters.\n     \tcomponent._anvil.eventTypes[event]\
+    \ = {\n          'name': event,\n          'parameters': event_params\n      \
+    \  };\n\n      \t// call raise_event on the component\n        let handled = PyDefUtils.raiseEventOrSuspend(e_args,\
     \ component, event);\n      \n        // check if it's a suspension or if the\
     \ user returned a value to prevent default\n      \tif (handled){\n          if\
     \ (handled.$isSuspension) {\n            // if it's a suspension convert to a\
