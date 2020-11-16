@@ -37,7 +37,7 @@ def init(component):
     pass
   else:
     raise TypeError("must be an instance or subclass of component")
-  _js.call_js('augment_init', component)
+  _js.call_js('augment_init', component)  
 
 if __name__ == '__main__':
   print('AnvilAugment is a dependency')
