@@ -33,7 +33,6 @@ def add_event(component, event):
             e.preventDefault()
     
     js_event_name = 'mouseenter mouseleave' if event is 'hover' else event
-
     _get_jquery_for_component(component).on(js_event_name, handler)
   
   
@@ -77,13 +76,19 @@ def _get_jquery_for_component(component):
         return _S(_js.get_dom_node(component)).find('form')
     else:
         return _S(_js.get_dom_node(component))
-  
 
 def _add_event(component, event):
-    _js.call_js('add_event', component, event)
+    _js.call_js('_add_event', component, event)
+
+# the following is a bit of a hack so that an anvil component knows about its new event names
+_ = _js.window.document.createElement('script')
+_js.window.document.body.appendChild(_)
+_.textContent = 'function _add_event(c, e) { PyDefUtils.unwrapOrRemapToPy(c)._anvil.eventTypes[e] = {name: e} }'
 
 
 if __name__ == '__main__':
     _ = _anvil.ColumnPanel()
     _.set_event_handler('show', lambda **e: _anvil.Notification('oops AnvilAugment is a dependency', timeout=None).show())
     _anvil.open_form(_)
+
+_ = None

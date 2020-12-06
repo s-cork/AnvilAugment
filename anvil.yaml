@@ -7,9 +7,6 @@ name: AnvilAugment
 runtime_options: {version: 2, server_version: python2-sandbox, client_version: '3'}
 metadata: {}
 startup_form: null
-native_deps: {head_html: "<script>\nfunction add_event(component, event) {\n  // hack\
-    \ to add this to the component's known events so that anvil doesn't raise an error\n\
-    \  PyDefUtils.unwrapOrRemapToPy(component)._anvil.eventTypes[event] = {name: event}\n\
-    }\n</script>"}
+native_deps: {head_html: ''}
 db_schema: []
 renamed: true
