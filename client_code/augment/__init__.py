@@ -31,7 +31,7 @@ def add_event(component, event):
                            'alt_key':e.altKey, 'meta_key':e.metaKey, 'ctrl_key':e.ctrlKey}
         if component.raise_event(event, **event_args):
             e.preventDefault()
-
+    
     js_event_name = 'mouseenter mouseleave' if event is 'hover' else event
 
     _get_jquery_for_component(component).on(js_event_name, handler)
