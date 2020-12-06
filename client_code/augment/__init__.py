@@ -19,11 +19,13 @@ def add_event(component, event):
   """component: (instantiated) anvil component
   event: str - any jquery event string
   """
-  init(component)
+  init(component) # adds the trigger method to the component type
   if not isinstance(event, str):
       raise TypeError('event must be type str and not ' + type(event))
   
-  event = 'mouseenter mouseleave' if event is 'hover' else event
+  _js.call_js('add_event', component, event)
+  
+  js_event_name = 'mouseenter mouseleave' if event is 'hover' else event
   if 'key' not in event:
       def standard_handler(e):
           if component.raise_event(event, sender=component, event_type=e.type):
@@ -48,8 +50,7 @@ def add_event(component, event):
       handler = key_handler
 
 
-  _S(_get_node_for_component(component)).on(event, handler)
-
+  _S(_get_node_for_component(component)).on(js_event_name, handler)
   
   
 def set_event_handler(component, event, func):
@@ -62,6 +63,7 @@ def set_event_handler(component, event, func):
 
 
 def init(component):
+  """adds a trigger method to all components of the type passed in"""
   if isinstance(component, _Component):
     component = type(component)
   if issubclass(component, _Component):
@@ -73,11 +75,19 @@ def init(component):
   else:
     component.trigger = trigger
 
+
 def trigger(self, event):
-    _S(_get_dom_node_for(self)).trigger(event)
+    """trigger an event self is an anvil component, event is a component, event is a str or a dictionary
+    if event is a dictionary it should include an event key e.g. {'event': 'keypress', 'which': 13}
+    """
+    if isinstance(event, dict):
+        event_name = event.get('event')
+        event = _S.Event(event_name, event)
+    event = 'mouseenter mouseleave' if event is 'hover' else event
+    _S(_get_node_for_component(self)).trigger(event)
 
 
-def _get_dom_node_for(component):
+def _get_node_for_component(component):
     if isinstance(component, _anvil.Button):
         return _js.get_dom_node(component).firstElementChild
     elif isinstance(component, _anvil.FileLoader):
