@@ -12,14 +12,44 @@
 """
 
 from anvil import js as _js, Component as _Component
+import anvil as _anvil
+from anvil.js.window import jQuery as _S
 
 def add_event(component, event):
   """component: (instantiated) anvil component
   event: str - any jquery event string
   """
+  init(component)
   if not isinstance(event, str):
-    raise TypeError(f'event must be type str and not {type(event)}')
-  _js.call_js('augment', component, event)
+      raise TypeError('event must be type str and not ' + type(event))
+  
+  event = 'mouseenter mouseleave' if event is 'hover' else event
+  if 'key' not in event:
+      def standard_handler(e):
+          if component.raise_event(event, sender=component, event_type=e.type):
+              e.preventDefault()
+
+      handler = standard_handler
+
+  else:
+      def key_handler(e):
+          if component.raise_event( event, 
+                                    sender=component, 
+                                    event_type=e.type, 
+                                    key=e.key,
+                                    key_code=e.keyCode,
+                                    shift_key=e.shiftKey,
+                                    alt_key=e.altKey,
+                                    meta_key=e.metaKey,
+                                    ctrl_key=e.ctrlKey,
+                                   ):
+              e.preventDefault()
+      
+      handler = key_handler
+
+
+  _S(_get_node_for_component(component)).on(event, handler)
+
   
   
 def set_event_handler(component, event, func):
@@ -30,14 +60,33 @@ def set_event_handler(component, event, func):
   add_event(component, event)
   component.set_event_handler(event, func)
 
+
 def init(component):
   if isinstance(component, _Component):
     component = type(component)
   if issubclass(component, _Component):
     pass
   else:
-    raise TypeError("must be an instance or subclass of component")
-  _js.call_js('augment_init', component)  
+    raise TypeError("expected a component not {}".format(type(component).__name__))
+  if hasattr(component, 'trigger'):
+    return
+  else:
+    component.trigger = trigger
 
+def trigger(self, event):
+    _S(_get_dom_node_for(self)).trigger(event)
+
+
+def _get_dom_node_for(component):
+    if isinstance(component, _anvil.Button):
+        return _js.get_dom_node(component).firstElementChild
+    elif isinstance(component, _anvil.FileLoader):
+        return _S(_js.get_dom_node(component)).find('form')
+    else:
+        return _js.get_dom_node(component)
+  
+  
 if __name__ == '__main__':
-  print('AnvilAugment is a dependency')
+  _ = _anvil.Label()
+  _.set_event_handler('show', lambda **e: _anvil.Notification('oops hashrouting is a dependency', timeout=None).show())
+  _anvil.open_form(_)
